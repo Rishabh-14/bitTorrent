@@ -1,12 +1,24 @@
-def decode_bencoded_disctionary(encoded_str):
-    if encoded_str[0] != 'd':
-        return None, encoded_str
-    encoded_str = encoded_str[1:]
-    decoded_dict = {}
-    while encoded_str[0] != 'e':
-        key, encoded_str = decode_bencoded_str(encoded_str)
-        value, encoded_str = decode_bencoded_value(encoded_str)
-        decoded_dict[key] = value
+from uu import encode
 
-    encoded_str = encoded_str[1:]
-    return decoded_dict, encoded_str
+
+def decode_bencoded_value(encoded_str):
+
+    # Decode string
+    if encoded_str[0].isdigit():
+        return decode_bencoded_string(encoded_str)
+    
+    # Decode integer
+    elif encoded_str[0] == 'i':
+        return decode_bencoded_integer(encoded_str)
+    
+    # Decode list
+    elif encoded_str[0] == 'l':
+        return decode_bencoded_list(encoded_str)
+    
+    #Decode dictionary
+    elif encoded_str[0] == 'd':
+        return decode_bencoded_dictionary(encoded_str)
+    
+    # Now let's retry decoding a bencoded dictionary
+    decoded_dict, remaining = decode_bencoded_dictionary(test_encoded_str)
+    decoded_dict, remaining
